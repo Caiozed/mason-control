@@ -1,0 +1,80 @@
+﻿<Page x:Class="MasonControl.Views.UsuariosView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MasonControl.Views"
+      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="UsuariosView">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="Black" Grid.ColumnSpan="2">
+
+            <TextBlock Foreground="White" Text="MEMBROS" Margin="5" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBox Foreground="White" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,5,0">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding ProcuraCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+                <iconPacks:PackIconMaterial Kind="DatabaseSearch" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <Button Margin="5" FontSize="30" HorizontalAlignment="Right" VerticalAlignment="Center" Click="novo_btn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="NOVO" FontSize="20" Margin="5,0,5,0"/>
+                    <iconPacks:PackIconMaterial Kind="Plus" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Border Grid.Row="2"  BorderBrush="Gray" BorderThickness="2">
+            <DataGrid IsReadOnly="True" CanUserAddRows="False" Opacity="0.95" CanUserDeleteRows="False" ItemsSource="{Binding Usuarios}" SelectedItem="{Binding UsuarioSelecionado}" MouseDoubleClick="select" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="auto" Binding="{Binding Login}" Header="Login"/>
+                    <DataGridTextColumn Width="auto" Binding="{Binding Senha}" Header="Senha"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!--CADASTRO-->
+        <Controls:Flyout MinWidth="600" x:Name="flyout" Grid.RowSpan="5" Position="Right" Background="Black" Foreground="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="5">
+                    <Label Content="Login" Foreground="White"/>
+                    <TextBox Text="{Binding UsuarioSelecionado.Login}"></TextBox>
+                </StackPanel>
+
+                <StackPanel Margin="5" Grid.Column="1">
+                    <Label Content="Senha" Foreground="White"/>
+                    <TextBox Text="{Binding UsuarioSelecionado.Senha}"></TextBox>
+                </StackPanel>
+
+                <!--BUTTÕES-->
+                <Button Margin="5" Content="Cancelar" Grid.Row="8" Click="cancela_click"/>
+                <Button Margin="5" Content="Salvar" Grid.Column="1" Grid.Row="8" Click="salva_Click"/>
+            </Grid>
+        </Controls:Flyout>
+    </Grid>
+</Page>

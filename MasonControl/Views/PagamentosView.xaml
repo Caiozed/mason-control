@@ -1,0 +1,69 @@
+﻿<Page x:Class="MasonControl.Views.PagamentosView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MasonControl.Views"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Pagamentos">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Background="Black" Grid.ColumnSpan="2">
+            <TextBlock Foreground="White" Text="PAGAMENTOS" Margin="5" FontSize="30" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Border Grid.Row="2"  BorderBrush="Gray" BorderThickness="2">
+            <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Opacity="0.95" CanUserDeleteRows="False" CanUserAddRows="False" ItemsSource="{Binding Pagamentos}" SelectedItem="{Binding PagamentoSelecionado}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding MembroNome}" Header="MEMBRO"/>
+                    <DataGridTextColumn Binding="{Binding DataVencimento, StringFormat='MM/yyyy'}" Header="Data de Vencimento"/>
+                    <DataGridTextColumn Binding="{Binding DataPagamento, StringFormat='MM/yyyy'}" Header="Data de Pagamento"/>
+                    <DataGridTemplateColumn Header="Status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox Foreground="White"  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Page},
+                             Path=DataContext.Status}" SelectedItem="{Binding StatusPagamento, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="status_SelectionChanged"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+             </DataGrid>
+        </Border>
+
+        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Gray" BorderThickness="2" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Margin="5">
+                    <Label Content="SELECIONE DATA"/>
+                    <Calendar SelectedDate="{Binding DataSelecionada}" DisplayMode="Month" SelectedDatesChanged="DatePicker_SelectedDateChanged"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="5">
+                    <Label Content="SELECIONE A LOJA"/>
+                    <ComboBox Foreground="White" ItemsSource="{Binding Lojas}" SelectedItem="{Binding LojaSelecionada}" DisplayMemberPath="Nome" SelectionChanged="ComboBox_SelectionChanged"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Margin="5">
+                    <Label Content="SELECIONE O FILTRO"/>
+                    <ComboBox Foreground="White" ItemsSource="{Binding Status}" SelectedItem="{Binding StatusSelecionado}" SelectionChanged="Filtro_SelecionChanged"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
